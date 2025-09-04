@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+  <style>
+    body { font-family: Arial; }
+    #taskList li { margin: 5px 0; }
+    .completed { text-decoration: line-through; color: gray; }
+  </style>
+</head>
+<body>
+  <h2>To-Do List</h2>
+  <input type="text" id="taskInput" placeholder="New task">
+  <button id="addBtn">Add</button>
+  <ul id="taskList"></ul>
+
+  <script>
+    const taskInput = document.getElementById("taskInput");
+    const addBtn = document.getElementById("addBtn");
+    const taskList = document.getElementById("taskList");
+
+    // Load tasks from localStorage
+    window.onload = () => {
+      const saved = JSON.parse(localStorage.getItem("tasks")) || [];
+      saved.forEach(t => createTask(t.text, t.completed));
+    };
+
+    // Add new task
+    addBtn.onclick = () => {
+      if (taskInput.value.trim() === "") return;
+      createTask(taskInput.value, false);
+      saveTasks();
+      taskInput.value = "";
+    };
+
+    // Create task element
+    function createTask(text, completed) {
+      const li = document.createElement("li");
+      li.textContent = text;
+      if (completed) li.classList.add("completed");
+
+      // Toggle complete on click
+      li.onclick = () => {
+        li.classList.toggle("completed");
+        saveTasks();
+      };
+
+      // Delete button
+      const del = document.createElement("button");
+      del.textContent = "❌";
+      del.onclick = (e) => {
+        e.stopPropagation();
+        li.remove();
+        saveTasks();
+      };
+
+      li.appendChild(del);
+      taskList.appendChild(li);
+    }
+
+    // Save tasks to localStorage
+    function saveTasks() {
+      const tasks = [];
+      taskList.querySelectorAll("li").forEach(li => {
+        tasks.push({
+          text: li.firstChild.textContent,
+          completed: li.classList.contains("completed")
+        });
+      });
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  </script>
+</body>
+</html>

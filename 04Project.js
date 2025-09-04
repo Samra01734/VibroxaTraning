@@ -11,10 +11,10 @@ class Student {
   // Calculate average grade
   calculateAverage() {
     if (this.grades.length === 0) return 0;
-    const sum = this.grades.reduce((acc, g) => acc + g, 0);
+  const sum = this.grades.reduce((acc, g) => acc + g, 0);
     return sum / this.grades.length;
   }
-
+ 
   // Add a new subject
   addSubject(newSubject) {
     this.subjects.push(newSubject);
