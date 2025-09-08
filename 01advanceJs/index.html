@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Library System</title>
+  <style>
+    /* ===== Global Styles ===== */
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f6fa;
+      color: #333;
+    }
+    h1, h2, h3 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+
+    /* ===== Section Styles ===== */
+    .section {
+      margin: 20px auto;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      backdrop-filter: blur(5px);
+    }
+    .section-bg1 { background: url("https://www.transparenttextures.com/patterns/white-wall-3.png"); }
+    .section-bg2 { background: url("https://www.transparenttextures.com/patterns/cubes.png"); }
+    .section-bg3 { background: url("https://www.transparenttextures.com/patterns/subtle-dots.png"); }
+    .section-bg4 { background: url("https://www.transparenttextures.com/patterns/soft-circle-scales.png"); }
+
+    /* ===== Inputs ===== */
+    input {
+      padding: 12px;
+      margin: 8px 0;
+      width: 95%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      display: block;
+      transition: 0.2s;
+    }
+    input:focus {
+      border-color: #3498db;
+      outline: none;
+      box-shadow: 0 0 5px rgba(52,152,219,0.5);
+    }
+
+    /* ===== Buttons ===== */
+    button {
+      padding: 12px;
+      margin: 6px 4px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #3498db;
+      color: white;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+    }
+
+    /* ===== Lists ===== */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background: #ecf0f1;
+      margin: 6px 0;
+      padding: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 Library System</h1>
+
+  <!-- Add Book Section -->
+  <div class="section section-bg1">
+    <h2>Add Book</h2>
+    <input type="text" id="title" placeholder="Title">
+    <input type="text" id="author" placeholder="Author">
+    <input type="number" id="year" placeholder="Year Published">
+    <button onclick="addBook()">Add Book</button>
+  </div>
+
+  <!-- List Books Section -->
+  <div class="section section-bg2">
+    <h2>All Books</h2>
+    <button onclick="listBooks()">Show Books</button>
+    <ul id="bookList"></ul>
+  </div>
+
+  <!-- Find Books by Author -->
+  <div class="section section-bg3">
+    <h2>Find Books by Author</h2>
+    <input type="text" id="searchAuthor" placeholder="Author Name">
+    <button onclick="findByAuthor()">Search</button>
+    <ul id="searchResults"></ul>
+  </div>
+
+  <!-- User Section -->
+  <div class="section section-bg4">
+    <h2>User Actions</h2>
+    <input type="text" id="userName" placeholder="User Name">
+    <button onclick="createUser()">Create User</button>
+    <button onclick="listBorrowed()">Show Borrowed Books</button>
+    <p id="currentUser"></p>
+
+    <h3>Borrow/Return</h3>
+    <input type="text" id="bookTitleAction" placeholder="Book Title">
+    <button onclick="borrowBook()">Borrow</button>
+    <button onclick="returnBook()">Return</button>
+  </div>
+
+  <script>
+    // Book Class
+    class Book {
+      constructor(title, author, yearPublished) {
+        this.title = title;
+        this.author = author;
+        this.yearPublished = yearPublished;
+        this.isBorrowed = false;
+      }
+      details() {
+        return `${this.title} by ${this.author} (${this.yearPublished}) - ${this.isBorrowed ? "Borrowed" : "Available"}`;
+      }
+    }
+
+    // Library Class
+    class Library {
+      constructor() {
+        this.books = [];
+      }
+      addBook(book) {
+        this.books.push(book);
+        alert(`"${book.title}" added to library.`);
+      }
+      listBooks() {
+        const list = document.getElementById("bookList");
+        list.innerHTML = "";
+        this.books.forEach((book) => {
+          const li = document.createElement("li");
+          li.textContent = book.details();
+          list.appendChild(li);
+        });
+      }
+    }
+
+    // Prototype method
+    Library.prototype.findByAuthor = function (authorName) {
+      const results = document.getElementById("searchResults");
+      results.innerHTML = "";
+      const found = this.books.filter((book) => book.author.toLowerCase() === authorName.toLowerCase());
+      if (found.length === 0) {
+        results.innerHTML = "<li>No books found.</li>";
+      } else {
+        found.forEach((book) => {
+          const li = document.createElement("li");
+          li.textContent = book.details();
+          results.appendChild(li);
+        });
+      }
+    };
+
+    // User Class
+    class User {
+      constructor(name) {
+        this.name = name;
+        this.borrowedBooks = [];
+      }
+      borrowBook(book) {
+        if (!book.isBorrowed) {
+          book.isBorrowed = true;
+          this.borrowedBooks.push(book);
+          alert(`${this.name} borrowed "${book.title}".`);
+        } else {
+          alert(`"${book.title}" is already borrowed.`);
+        }
+      }
+      returnBook(book) {
+        const index = this.borrowedBooks.indexOf(book);
+        if (index > -1) {
+          book.isBorrowed = false;
+          this.borrowedBooks.splice(index, 1);
+          alert(`${this.name} returned "${book.title}".`);
+        } else {
+          alert(`${this.name} did not borrow "${book.title}".`);
+        }
+      }
+      listBorrowed() {
+        if (this.borrowedBooks.length === 0) {
+          alert(`${this.name} has no borrowed books.`);
+        } else {
+          alert(
+            `${this.name}'s borrowed books:\n` +
+            this.borrowedBooks.map((b) => b.details()).join("\n")
+          );
+        }
+      }
+    }
+
+    // Global instances
+    const myLibrary = new Library();
+    let currentUser = null;
+
+    // Functions for UI buttons
+    function addBook() {
+      const title = document.getElementById("title").value;
+      const author = document.getElementById("author").value;
+      const year = document.getElementById("year").value;
+
+      if (title && author && year) {
+        const newBook = new Book(title, author, year);
+        myLibrary.addBook(newBook);
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("year").value = "";
+      } else {
+        alert("Please fill all fields.");
+      }
+    }
+
+    function listBooks() {
+      myLibrary.listBooks();
+    }
+
+    function findByAuthor() {
+      const author = document.getElementById("searchAuthor").value;
+      if (author) {
+        myLibrary.findByAuthor(author);
+      }
+    }
+
+    function createUser() {
+      const name = document.getElementById("userName").value;
+      if (name) {
+        currentUser = new User(name);
+        document.getElementById("currentUser").textContent = `Current User: ${name}`;
+      } else {
+        alert("Enter user name.");
+      }
+    }
+
+    function borrowBook() {
+      if (!currentUser) return alert("Create a user first!");
+      const title = document.getElementById("bookTitleAction").value;
+      const book = myLibrary.books.find((b) => b.title.toLowerCase() === title.toLowerCase());
+      if (book) {
+        currentUser.borrowBook(book);
+        myLibrary.listBooks();
+      } else {
+        alert("Book not found.");
+      }
+    }
+
+    function returnBook() {
+      if (!currentUser) return alert("Create a user first!");
+      const title = document.getElementById("bookTitleAction").value;
+      const book = myLibrary.books.find((b) => b.title.toLowerCase() === title.toLowerCase());
+      if (book) {
+        currentUser.returnBook(book);
+        myLibrary.listBooks();
+      } else {
+        alert("Book not found.");
+      }
+    }
+
+    function listBorrowed() {
+      if (!currentUser) return alert("Create a user first!");
+      currentUser.listBorrowed();
+    }
+  </script>
+</body>
+</html>
