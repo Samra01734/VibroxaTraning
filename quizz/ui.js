@@ -93,8 +93,8 @@ export default class UI {
   showResult(score, total, username, onReview, onRestart) {
     const percent = Math.round((score / total) * 100);
     let feedback = 'Keep Practicing!';
-    if (percent >= 80) feedback = 'Excellent 🎉';
-    else if (percent >= 50) feedback = 'Nice — can improve';
+    if (percent >= 80) feedback = 'Excellent ';
+    else if (percent >= 50) feedback = 'Nice — can  be improved';
 
     // set conic gradient percent via inline CSS variable
     this.app.innerHTML = `
