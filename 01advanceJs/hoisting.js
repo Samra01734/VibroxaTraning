@@ -1,18 +1,31 @@
 console.log(a); // undefined
 var a = 10;
+//var a is hoisted with undefined.
 
 console.log(b); // ReferenceError: Cannot access 'b' before initialization
 let b = 20;
 
+//let b is hoisted but not initialized → TDZ.
 foo(); // "Hello"
 function foo() {
   console.log("Hello");
 }
 
+
 bar(); // TypeError: bar is not a function
 var bar = function() {
   console.log("Bar");
 };
+
+/*=========================
+
+var bar hoisted with undefined.
+
+At call time, bar is not yet assigned → bar() is undefined().
+✅ Output 
+TypeError: bar is not a function
+
+/======
 /*
 Text-Based Diagram (Hoisting Visualization):
 Imagine the code is rewritten by the JavaScript engine during compilation:
