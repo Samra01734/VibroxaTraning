@@ -1,0 +1,8 @@
+<input type="text" id="name" placeholder="Type here">
+<p id="output"></p>
+
+<script>
+document.getElementById("name").onkeyup = function() {
+  document.getElementById("output").textContent = this.value;
+};
+</script>
