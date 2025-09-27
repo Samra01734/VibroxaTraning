@@ -1,0 +1,70 @@
+/* General Page Styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1a1a40, #3d3d80);
+  color: #fff;
+  text-align: center;
+}
+
+/* Quiz Container */
+.quiz-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Heading */
+.quiz-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #ffcc00;
+}
+
+/* Question */
+.quiz-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+/* Options Buttons */
+.option-btn {
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+  padding: 12px;
+  font-size: 16px;
+  background: #26264f;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.option-btn:hover {
+  background: #ffcc00;
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* Restart Button */
+.restart-btn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 16px;
+  background: #ff4b5c;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.restart-btn:hover {
+  background: #ffcc00;
+  color: #000;
+}
