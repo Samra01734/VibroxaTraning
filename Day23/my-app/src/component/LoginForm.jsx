@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./LoginForm.css";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ function LoginForm() {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Invalid email format");
     } else {
+
       setError("");
       alert("Form Submitted Successfully!");
     }
