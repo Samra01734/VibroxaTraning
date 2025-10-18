@@ -8,21 +8,21 @@ export default function App() {
     <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
       <h1 style={{ textAlign: "center" }}>React useReducer & Context Practice</h1>
 
-      {/* 🟢 Basic Example */}
+      {/*  Basic Example */}
       <section style={{ marginTop: "40px" }}>
-        <h2>1️⃣ Counter with useReducer</h2>
+        <h2>1 Counter with useReducer</h2>
         <counterReducer />
       </section>
 
-      {/* 🟡 Intermediate Example */}
+      {/*  Intermediate Example */}
       <section style={{ marginTop: "60px" }}>
-        <h2>2️⃣ Theme Toggle with Context</h2>
+        <h2>2 Theme Toggle with Context</h2>
         <ThemeContextDemo />
       </section>
 
-      {/* 🔴 Advanced Example */}
+      {/*  Advanced Example */}
       <section style={{ marginTop: "60px" }}>
-        <h2>3️⃣ Global Todo App (Context + useReducer)</h2>
+        <h2>3 Global Todo App (Context + useReducer)</h2>
         <TodoContextDemo />
       </section>
     </div>

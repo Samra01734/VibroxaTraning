@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
+
 const PORT = 3000;
+
 
 const users = [
   { id: 1, name: "Ali", role: "admin" },
