@@ -1,0 +1,134 @@
+/* ===== Global Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== Body Styling ===== */
+body {
+  background-color: #121212;
+  color: #f2f2f2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+  width: 100%;
+  background: #1e1e1e;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px;
+  border-bottom: 1px solid #333;
+}
+
+.navbar a {
+  color: #f2f2f2;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.navbar a:hover {
+  color: #00ffb3;
+  text-shadow: 0 0 5px #00ffb3;
+}
+
+/* ===== Container ===== */
+.container {
+  max-width: 800px;
+  width: 90%;
+  margin-top: 40px;
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 255, 179, 0.1);
+}
+
+/* ===== Buttons ===== */
+button {
+  background-color: #00ffb3;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #00e3a2;
+  box-shadow: 0 0 10px #00ffb3;
+}
+
+/* ===== Inputs ===== */
+input {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
+  outline: none;
+  margin-bottom: 15px;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #00ffb3;
+  box-shadow: 0 0 6px #00ffb3;
+}
+
+/* ===== Lists ===== */
+ul {
+  list-style: none;
+  margin-top: 15px;
+}
+
+li {
+  background: #222;
+  margin: 8px 0;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.3s;
+}
+
+li:hover {
+  background: #2b2b2b;
+}
+
+/* ===== Loader ===== */
+.loader {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #00ffb3;
+  margin-top: 30px;
+}
+
+/* ===== Error ===== */
+.error {
+  color: #ff5757;
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* ===== Success Message ===== */
+.success {
+  color: #00ffb3;
+  text-align: center;
+  margin-top: 30px;
+}

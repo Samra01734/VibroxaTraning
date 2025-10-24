@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Student Management Dashboard</h1>
+
+    <!-- Student Form -->
+    <form id="studentForm">
+      <input type="text" id="name" placeholder="Enter Name" required>
+      <input type="number" id="age" placeholder="Enter Age" required>
+      <select id="course" required>
+        <option value="">Select Course</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="Python">Python</option>
+        <option value="C++">C++</option>
+      </select>
+      <button type="submit">Add Student</button>
+    </form>
+
+    <!-- Filter -->
+    <div class="filter">
+      <label for="filterCourse">Filter by Course: </label>
+      <select id="filterCourse">
+        <option value="All">All</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="Python">Python</option>
+        <option value="C++">C++</option>
+      </select>
+    </div>
+
+    <!-- Student Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Course</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="studentList"></tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+<script>
+    // Get DOM elements
+const studentForm = document.getElementById("studentForm");
+const studentList = document.getElementById("studentList");
+const filterCourse = document.getElementById("filterCourse");
+
+// Load students from localStorage
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+// Function to render students
+function renderStudents(filter = "All") {
+  studentList.innerHTML = "";
+
+  students
+    .filter(student => filter === "All" || student.course === filter)
+    .forEach((student, index) => {
+      // Destructuring
+      const { name, age, course } = student;
+
+      // Template Literal for row
+      const row = `
+        <tr>
+          <td>${name}</td>
+          <td>${age}</td>
+          <td>${course}</td>
+          <td><button class="delete-btn" onclick="deleteStudent(${index})">Delete</button></td>
+        </tr>
+      `;
+
+      studentList.innerHTML += row;
+    });
+}
+
+// Add Student
+studentForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // Collect data
+  const name = document.getElementById("name").value;
+  const age = document.getElementById("age").value;
+  const course = document.getElementById("course").value;
+
+  const newStudent = { name, age, course };
+
+  // Save to list
+  students.push(newStudent);
+  localStorage.setItem("students", JSON.stringify(students));
+
+  // Reset form
+  studentForm.reset();
+
+  // Re-render list
+  renderStudents(filterCourse.value);
+});
+
+// Delete Student
+function deleteStudent(index) {
+  students.splice(index, 1);
+  localStorage.setItem("students", JSON.stringify(students));
+  renderStudents(filterCourse.value);
+}
+
+// Filter by Course
+filterCourse.addEventListener("change", () => {
+  renderStudents(filterCourse.value);
+});
+
+// Initial render
+renderStudents();
+
+</script>
+</html>

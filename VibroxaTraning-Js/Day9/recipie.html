@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recipe Manager</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f2f5;
+      color: #333;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+
+    /* ===== Form Styling ===== */
+    form {
+      background: #ffffff;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      border-left: 6px solid #3498db; /* blue accent */
+    }
+    form label {
+      font-weight: 600;
+      display: block;
+      margin: 12px 0 6px;
+    }
+    form input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    form input:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 5px rgba(52,152,219,0.4);
+    }
+    form button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #3498db;
+      color: white;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    form button:hover {
+      background: #2980b9;
+    }
+
+    /* ===== Search Box ===== */
+    .search-box {
+      background: #ecf6ff;
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border-left: 6px solid #27ae60; /* green accent */
+    }
+    .search-box label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .search-box input {
+      width: 70%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .search-box button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #27ae60;
+      color: white;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .search-box button:hover {
+      background: #219150;
+    }
+
+    /* ===== Recipe List ===== */
+    .recipe-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .recipe-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .recipe-card:hover {
+      transform: translateY(-3px);
+    }
+    .recipe-title {
+      font-size: 18px;
+      margin: 0 0 8px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    .recipe-title.bold {
+      font-weight: 700;
+      color: #1a252f;
+    }
+    .recipe-details {
+      font-size: 14px;
+      margin: 4px 0;
+      color: #555;
+    }
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #c0392b;
+      border: none;
+      padding: 6px 10px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+    .delete-btn:hover {
+      background: #a93226;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Recipe Manager</h1>
+    <p>Manage and search your favorite recipes</p>
+  </header>
+
+  <main>
+    <!-- Add Recipe Form -->
+    <form id="recipeForm">
+      <label>Recipe Name:</label>
+      <input type="text" id="name" required>
+      
+      <label>Ingredients (comma separated):</label>
+      <input type="text" id="ingredients" required>
+      
+      <label>Cooking Time (mins):</label>
+      <input type="number" id="time" placeholder="Default: 30">
+      
+      <button type="submit">Add Recipe</button>
+    </form>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <label>Search Recipes:</label>
+      <input type="text" id="searchInput" placeholder="Search by name...">
+      <button id="sortBtn">Sort by Time</button>
+    </div>
+
+    <!-- Recipe List -->
+    <div class="recipe-list" id="recipeList"></div>
+  </main>
+
+  <script>
+    let recipes = [];
+
+    // Rest operator function
+    function listIngredients(...ingredients) {
+      return ingredients.join(", ");
+    }
+
+    // Add Recipe
+    const recipeForm = document.getElementById("recipeForm");
+    recipeForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const ing = document.getElementById("ingredients").value.split(",");
+      const time = document.getElementById("time").value || 30; // default param
+
+      const newRecipe = {
+        name,
+        ingredients: ing.map(i => i.trim()),
+        time: Number(time)
+      };
+
+      recipes = [...recipes, newRecipe]; // spread operator
+      renderRecipes();
+      recipeForm.reset();
+    });
+
+    // Render Recipes
+    const recipeList = document.getElementById("recipeList");
+    const renderRecipes = (filter = "") => {
+      recipeList.innerHTML = "";
+      recipes
+        .filter(r => r.name.toLowerCase().includes(filter.toLowerCase())) // arrow fn
+        .forEach((recipe, index) => {
+          const card = document.createElement("div");
+          card.className = "recipe-card";
+
+          const title = document.createElement("h3");
+          title.textContent = recipe.name;
+          title.className = "recipe-title";
+          if (recipe.ingredients.length > 5) title.classList.add("bold");
+
+          const details = document.createElement("p");
+          details.className = "recipe-details";
+          details.textContent = `Ingredients: ${listIngredients(...recipe.ingredients)}`;
+
+          const time = document.createElement("p");
+          time.className = "recipe-details";
+          time.textContent = `Cooking Time: ${recipe.time} mins`;
+
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Delete";
+          delBtn.className = "delete-btn";
+          delBtn.onclick = () => {
+            recipes.splice(index, 1);
+            renderRecipes(filter);
+          };
+
+          card.appendChild(title);
+          card.appendChild(details);
+          card.appendChild(time);
+          card.appendChild(delBtn);
+          recipeList.appendChild(card);
+        });
+    };
+
+    // Search
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      renderRecipes(e.target.value);
+    });
+
+    // Sort
+    document.getElementById("sortBtn").addEventListener("click", () => {
+      recipes.sort((a, b) => a.time - b.time);
+      renderRecipes(document.getElementById("searchInput").value);
+    });
+  </script>
+</body>
+</html>
