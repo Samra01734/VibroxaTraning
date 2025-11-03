@@ -1,0 +1,78 @@
+CSS (Cascading Style Sheets)
+Definition:
+CSS is the stylesheet language used to describe the look and presentation of documents written in HTML or XML.
+It defines how elements are displayed on a webpage.
+CSS makes websites visually appealing and user-friendly.
+________________________________________
+How to Code CSS
+selector {
+  color: red;
+  font-size: 32px;
+}
+You can use properties (like color, font-size, etc.) to style HTML elements.
+________________________________________
+Creator and Maintenance of CSS
+•	Created by the World Wide Web Consortium (W3C)
+•	Primary Contributors:
+o	Håkon Wium Lie
+o	Bert Bos
+•	CSS Standards and specifications are maintained by W3C.
+•	A community of web developers, designers, and browser vendors contribute to its evolution.
+•	Regular updates and new versions ensure CSS remains relevant and adaptable to modern design needs.
+________________________________________
+History of CSS
+Version	Year	Description
+CSS1	1996	Limited properties and selectors
+CSS2	1998	Released and work on CSS3 began
+CSS2.1	2011	Fixed errors found in CSS2
+CSS3	Ongoing	Modular system, advanced layout features
+________________________________________
+CSS Rule Structure
+selector {
+  property: value;
+}
+A CSS rule consists of:
+•	Selector: Targets the HTML element
+•	Declaration Block: Contains one or more declarations
+•	Each declaration includes a property and a value
+________________________________________
+How to Use CSS in HTML
+1. Inline CSS
+Using the style attribute inside an HTML tag:
+<p style="color:red;">Hello CSS</p>
+2. Internal CSS
+Defined within <style> tag in the <head> section:
+<style>
+  p { color: blue; }
+</style>
+3. External CSS
+Stored in a separate .css file and linked using the <link> tag:
+<link rel="stylesheet" href="style.css">
+________________________________________
+Types of Selectors
+•	Tag/Element Selector: targets HTML tags (e.g., p, h1)
+•	Class Selector: targets elements with a specific class using . (e.g., .title)
+•	ID Selector: targets an element with a unique ID using # (e.g., #main)
+•	Pseudo-class Selector: targets specific states (e.g., a:hover)
+________________________________________
+Comments in CSS
+/* This is a CSS comment */
+Shortcut: Ctrl + /
+________________________________________
+Colors in CSS
+•	RGB: rgb(255, 0, 0)
+•	RGBA: rgba(255, 0, 0, 0.5) (includes opacity 0–1)
+•	HEX: #ff0000
+•	HSL: hsl(0, 100%, 50%)
+•	HSLA: hsla(0, 100%, 50%, 0.5)
+•	Cyan, Magenta, etc. — named colors
+•	Transparent color:
+•	color: transparent;
+•	Match current color of element:
+•	color: currentColor;
+________________________________________
+Difference between RGB and RGBA
+RGB	RGBA
+Defines Red, Green, Blue values	Adds an Alpha (opacity) channel
+Example: rgb(255, 0, 0)	Example: rgba(255, 0, 0, 0.5)
+
